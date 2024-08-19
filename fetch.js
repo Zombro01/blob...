@@ -1,1 +1,1 @@
-window.location.href="http://zombie-pass.rf.gd/?i=1"
+window.location.href="https://zombie-pass.rf.gd/sry.html"
