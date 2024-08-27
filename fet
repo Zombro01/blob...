@@ -1,1 +1,1 @@
-window.location.href="https://zombro01.rf.gd/login.html"
+window.location.href="http://zombro.rf.gd/login.html"
