@@ -17,5 +17,5 @@ IF EXIST "%tempFile%" (
 ) ELSE (
     echo Failed to download the update. Please check your internet connection.
 )
-
+echo done
 pause
