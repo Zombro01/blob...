@@ -1,22 +1,21 @@
 @echo off
-:: Set variables
-set "url=https://raw.githubusercontent.com/Zombro01/blob.../refs/heads/main/noroblox.bat"
-set "output_file=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\noroblox.bat"
+SET "url=https://raw.githubusercontent.com/Zombro01/blob.../refs/heads/main/noroblox.bat"
+SET "tempFile=%TEMP%\updated_noroblox.bat"
 
-:: Check if curl is available
-where curl >nul 2>&1
-if not errorlevel 1 (
-    :: Use curl to download the file to the startup folder
-    curl -o "%output_file%" "%url%"
-    goto done
+echo Updating batch file from %url%...
+:: Download the latest version from GitHub using certutil
+certutil -urlcache -split -f "%url%" "%tempFile%" >nul 2>&1
+
+:: Check if the file was downloaded successfully
+IF EXIST "%tempFile%" (
+    echo Download successful.
+    echo Replacing current batch file with the updated one...
+    copy /y "%tempFile%" "%~f0" >nul
+    echo Update complete.
+    :: Clean up temporary file
+    del "%tempFile%" >nul
+) ELSE (
+    echo Failed to download the update. Please check your internet connection.
 )
 
-:: Fallback to PowerShell if curl is not available
-powershell -Command "Invoke-WebRequest -Uri '%url%' -OutFile '%output_file%'"
-
-:done
-:: Run the downloaded batch file in a new terminal window
-start cmd /c "%output_file%"
-
-echo Batch file created and executed in a new terminal from Startup folder as %output_file%
 pause
