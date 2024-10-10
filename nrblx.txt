@@ -1,5 +1,5 @@
 echo off
 :loop
-echo L
+echo W
 echo GAME
 goto loop
