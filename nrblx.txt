@@ -1,2 +1,5 @@
 echo off
-for /l %x in (1, 1, 10000) do echo %x
+:loop
+echo L
+echo GAME
+goto loop
